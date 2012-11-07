@@ -3,16 +3,18 @@
 (function () {
 	"use strict";
 
-	// NOTE: This script does not work in Windows due to a Testacular issue:
-	// https://github.com/vojtajina/testacular/issues/91
-
 	var SUPPORTED_BROWSERS = [
 		"IE 8.0",
-		"Chrome 22.0"
+		"IE 9.0",
+		"Firefox 16.0",
+		"Chrome 23.0",
+		"Safari 6.0"
 	];
 
 	desc("Lint and test");
-	task("default", ["lint", "test"]);
+	task("default", ["lint", "testClient"], function() {
+		console.log("\n\nOK");
+	});
 
 	desc("Start Testacular server for testing");
 	task("testacular", function() {
@@ -20,14 +22,28 @@
 	}, {async: true});
 
 	desc("Test client code");
-	task("test", function() {
-		testacular(["run"], "Client tests failed (to start server, run 'jake testacular')", function(output) {
+	task("testClient", function() {
+		var config = {};
+
+		var output = "";
+		var oldStdout = process.stdout.write;
+		process.stdout.write = function(data) {
+			output += data;
+			oldStdout.apply(this, arguments);
+		};
+
+		require("testacular/lib/runner").run(config, function(exitCode) {
+			process.stdout.write = oldStdout;
+
+			if (exitCode) fail("Client tests failed (to start server, run 'jake testacular')");
 			var browserMissing = false;
 			SUPPORTED_BROWSERS.forEach(function(browser) {
 				browserMissing = checkIfBrowserTested(browser, output) || browserMissing;
 			});
 			if (browserMissing && !process.env.loose) fail("Did not test all supported browsers (use 'loose=true' to suppress error)");
 			if (output.indexOf("TOTAL: 0 SUCCESS") !== -1) fail("Client tests did not run!");
+
+			complete();
 		});
 	}, {async: true});
 
