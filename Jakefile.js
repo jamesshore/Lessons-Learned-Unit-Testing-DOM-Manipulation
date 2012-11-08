@@ -4,11 +4,11 @@
 	"use strict";
 
 	var SUPPORTED_BROWSERS = [
-		"IE 8.0",
-		"IE 9.0",
-		"Firefox 16.0",
-		"Chrome 23.0",
-		"Safari 6.0"
+//		"IE 8.0",
+//		"IE 9.0",
+//		"Firefox 16.0",
+//		"Chrome 23.0",
+//		"Safari 6.0"
 	];
 
 	desc("Lint and test");
