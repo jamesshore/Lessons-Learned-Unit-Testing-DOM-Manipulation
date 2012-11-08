@@ -22,7 +22,7 @@
 			field.value = "not empty";
 
 			example.validateTextField(field);
-			
+
 			expect(cssClass()).to.be(null);
 		});
 
