@@ -3,7 +3,8 @@
 (function() {
 	"use strict";
 
-	describe("Text field validator", function () {
+	describe("Text field validator", function() {
+
 		var field;
 
 		beforeEach(function() {
@@ -23,7 +24,7 @@
 
 			example.validateTextField(field);
 
-			expect(cssClass()).to.be(null);
+			expect(cssClass()).to.equal(null);
 		});
 
 		// TODO: should preserve existing CSS classes
