@@ -1,11 +1,16 @@
 // Copyright (c) 2012 Titanium I.T. LLC. All rights reserved. See LICENSE.txt for details.
 
-var code = {};
+var example = {};
 
 (function() {
 	"use strict";
 
-	code.foo = function() {
-		return "foo";
+	example.validateTextField = function(field) {
+		if (field.value) {
+			field.removeAttribute("class");
+		}
+		else {
+			field.setAttribute("class", "example-required");
+		}
 	};
 }());
