@@ -1,33 +1,36 @@
 // Copyright (c) 2012 Titanium I.T. LLC. All rights reserved. See LICENSE.txt for details.
-/*global describe, it, expect, example */
+/*global describe, it, expect, example, beforeEach */
 (function() {
 	"use strict";
 
 	describe("Text field validator", function () {
+		var field;
+
+		beforeEach(function() {
+			field = document.createElement("input");
+			field.setAttribute("type", "text");
+		});
 
 		it("applies 'required' CSS class when field is empty", function() {
-			var field = document.createElement("input");
-			field.setAttribute("type", "text");
-
 			example.validateTextField(field);
 
-			var cssClass = field.getAttribute("class");
-			expect(cssClass).to.equal("example-required");
+			expect(cssClass()).to.equal(example.REQUIRED_FIELD_CLASS);
 		});
 
 		it("removes 'required' CSS class when field is not empty", function() {
-			var field = document.createElement("input");
-			field.setAttribute("type", "text");
-			field.setAttribute("class", "example-required");
+			field.setAttribute("class", example.REQUIRED_FIELD_CLASS);
 			field.value = "not empty";
 
 			example.validateTextField(field);
-
-			var cssClass = field.getAttribute("class");
-			expect(cssClass).to.be(null);
+			
+			expect(cssClass()).to.be(null);
 		});
 
 		// TODO: should preserve existing CSS classes
+
+		function cssClass() {
+			return field.getAttribute("class");
+		}
 
 	});
 }());
